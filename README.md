@@ -71,11 +71,12 @@ Splits the images in `assets/<class>/` **70 / 15 / 15** into `dataset/train`, `d
   - `EarlyStopping` (patience 15) restores the best weights.
   - `ReduceLROnPlateau` (factor 0.5, patience 7).
 
-### Results (as recorded in the notebook)
-- Training stopped early at epoch 30; the best weights came from epoch 15.
-- Test set (54 images): **accuracy 1.00**, precision, recall and F1 1.00 for both classes.
+### Results
+Retrained on a clean split, with no image appearing in more than one of train, val and test:
+- Training stopped early at epoch 19; the best weights came from epoch 4 (val accuracy 1.00).
+- Test set (54 images: 27 bad, 27 good): **accuracy 1.00**, test loss 0.17, precision, recall and F1 1.00 for both classes.
 
-> ⚠️ **Caution about these numbers.** The `dataset/` folder currently in the repo contains images that appear in more than one split: about 38 filenames per class are in both `train/` and `test/`. This most likely comes from running the split cell several times without clearing `dataset/` first. The perfect test score is therefore probably optimistic. To get a reliable score, delete `dataset/`, run the split cell once, and retrain.
+> ℹ️ Many images are frames from the same videos (for example `v1_001`, `v1_002`, ...). Neighbouring frames look almost identical and can end up in different splits, so the test score can still be optimistic for footage the model has never seen. For a stricter evaluation, split by video instead of by individual frame.
 
 ### Inference
 `classify_image(path)` loads an image, predicts its class, and shows it with the confidence for each class:
